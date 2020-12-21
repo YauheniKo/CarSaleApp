@@ -12,6 +12,9 @@ public interface AdRepo extends CrudRepository<Ad, Long> {
 
     List<Ad> findByCar_Brand(String brand);
 
+    List<Ad> findByTagAndCar_Brand(String tag, String brand);
+
+
 
 
 

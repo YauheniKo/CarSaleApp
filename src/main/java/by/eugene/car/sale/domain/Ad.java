@@ -2,6 +2,8 @@ package by.eugene.car.sale.domain;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Ad {
@@ -33,14 +35,27 @@ public class Ad {
         this.author = user;
         this.car = car;
 
-
     }
 
     public String getAuthorName(){
         return author != null ? author.getUsername(): "<none>";
     }
-    public String getCarName(){
-        return car!= null ? car.getBrand(): "<none car>";
+
+
+
+    public List<String> listInfoCar(){
+        List<String> listInfoCar = new ArrayList<>();
+        listInfoCar.add(car.getBrand());
+        listInfoCar.add(car.getMod());
+        listInfoCar.add(String.valueOf(car.getYear()));
+        listInfoCar.add(car.getBodyType());
+        listInfoCar.add(car.getTransmission());
+        listInfoCar.add(car.getTypeOfDrive());
+        listInfoCar.add(car.getFuel());
+        listInfoCar.add(String.valueOf(car.getVolume()));
+        listInfoCar.add(String.valueOf(car.getPrice()));
+
+        return listInfoCar;
     }
 
     public Integer getId() {

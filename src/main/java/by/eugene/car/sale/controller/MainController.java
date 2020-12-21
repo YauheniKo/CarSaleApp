@@ -1,7 +1,6 @@
 package by.eugene.car.sale.controller;
 
 
-
 import by.eugene.car.sale.domain.Ad;
 import by.eugene.car.sale.domain.Car;
 import by.eugene.car.sale.domain.User;
@@ -10,6 +9,7 @@ import by.eugene.car.sale.repository.CarRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +26,6 @@ public class MainController {
     CarRepo carRepo;
 
 
-
     @GetMapping("/")
     public String greeting(Map<String, Object> model) {
 
@@ -34,13 +33,48 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(Map<String, Object> model) {
-        Iterable<Ad> ads = adRepo.findAll();
-        model.put("ads", ads);
+    public String filter(@RequestParam(required = false, defaultValue = "") String filter,
+                         @RequestParam(required = false, defaultValue = "") String filter1, Model model) {
+        Iterable<Ad> ads;
 
+        if (filter != null && !filter.isEmpty() &&
+                filter1 != null && !filter1.isEmpty()) {
+            ads = adRepo.findByTagAndCar_Brand(filter, filter1);
+
+        } else if (filter != null && !filter.isEmpty()) {
+            ads = adRepo.findByTag(filter);
+
+        } else if (filter1 != null && !filter1.isEmpty()) {
+            ads = adRepo.findByCar_Brand(filter1);
+        } else {
+            ads = adRepo.findAll();
+        }
+
+        model.addAttribute("ads", ads);
+        model.addAttribute("filter", filter);
+        model.addAttribute("filter1", filter1);
         return "main";
 
     }
+//    @GetMapping("/main1")
+//    public String filter1(@RequestParam(required = false, defaultValue = "") String filter1, Model model) {
+//        Iterable<Ad> ads = adRepo.findAll();
+//
+//
+//        if (filter1 != null && !filter1.isEmpty()) {
+//            ads = adRepo.findByCar_Brand(filter1);
+//
+//        }
+//        else {
+//            ads = adRepo.findAll();
+//        }
+//
+//        model.addAttribute("ads", ads);
+//        model.addAttribute("filter1", filter1);
+//
+//        return "main";
+//
+//    }
 
 
     @PostMapping("/main")
@@ -48,10 +82,19 @@ public class MainController {
             @AuthenticationPrincipal User user,
             @RequestParam String text,
             @RequestParam String brand,
+            @RequestParam String mod,
+            @RequestParam int year,
+            @RequestParam String bodyType,
+            @RequestParam String transmission,
+            @RequestParam String typeOfDrive,
+            @RequestParam String fuel,
+            @RequestParam double volume,
+            @RequestParam double price,
             @RequestParam String tag, Map<String, Object> model
     ) {
 
-        Car car = new Car(brand, user);
+        Car car = new Car(brand, mod, year, bodyType, transmission,
+                typeOfDrive, fuel, volume, price, user);
         carRepo.save(car);
         Ad ad = new Ad(text, tag, user, car);
 
@@ -61,40 +104,6 @@ public class MainController {
 
         return "main";
     }
-
-
-
-    @PostMapping("filter")
-    public String filter(@RequestParam String filter, Map<String, Object> model){
-        Iterable<Ad> ads;
-
-        if(filter !=null && !filter.isEmpty()){
-             ads = adRepo.findByTag(filter);
-
-        }else {
-            ads = adRepo.findAll();
-        }
-        model.put("ads", ads);
-
-        return "main";
-    }
-    @PostMapping("filter1")
-    public String filter1(@RequestParam String filter, Map<String, Object> model){
-        Iterable<Ad> ads;
-
-        if(filter !=null && !filter.isEmpty()){
-            ads = adRepo.findByCar_Brand(filter);
-
-        }else {
-            ads = adRepo.findAll();
-        }
-        model.put("ads", ads);
-
-        return "main";
-    }
-
-
-
 
 
 }
