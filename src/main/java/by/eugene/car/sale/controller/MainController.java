@@ -11,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -81,6 +82,7 @@ public class MainController {
     public String add(
             @AuthenticationPrincipal User user,
             @RequestParam String text,
+            @RequestParam String tag,
             @RequestParam String brand,
             @RequestParam String mod,
             @RequestParam int year,
@@ -90,7 +92,7 @@ public class MainController {
             @RequestParam String fuel,
             @RequestParam double volume,
             @RequestParam double price,
-            @RequestParam String tag, Map<String, Object> model
+             Map<String, Object> model
     ) {
 
         Car car = new Car(brand, mod, year, bodyType, transmission,

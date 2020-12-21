@@ -3,6 +3,7 @@
 <@c.page>
     <div>
         <@l.logout />
+        <span><a href="/user" >User list</a></span>
     </div>
 
     <div>
@@ -27,9 +28,9 @@
 
         <form method="get" action="/main">
             <div>Поиск по "Тэг"</div>
-            <input type="text" name="filter" value="${filter}" >
+            <input type="text" name="filter" value="${filter?ifExist}" >
             <div>Поиск по "Брэнд авто"</div>
-            <input type="text" name="filter1" value="${filter1}">
+            <input type="text" name="filter1" value="${filter1?ifExist}">
         <button type="submit">Найти</button>
     </form>
 
@@ -43,9 +44,9 @@
             <i>${ad.tag}</i>
 
             <span>
-                <#list ad.listInfoCar() as list>
-                    <span>${list}</span>
-                </#list>
+                <#list ad.listInfoCar() as list>${list}<#sep>, </#list>
+
+
             </span>
 
             <strong>${ad.authorName}</strong>
