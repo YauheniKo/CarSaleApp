@@ -23,6 +23,8 @@ public class Ad {
     @JoinColumn(name = "car_id")
     private Car car;
 
+    private String filename;
+
 
 
     public Ad() {
@@ -96,6 +98,14 @@ public class Ad {
 
     public void setCar(Car car) {
         this.car = car;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }
 

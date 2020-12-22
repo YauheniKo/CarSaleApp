@@ -5,9 +5,8 @@
         <@l.logout />
         <span><a href="/user" >User list</a></span>
     </div>
-
     <div>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data" action="/main">
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
             <input type="text" name="text" placeholder="Введите сообщение">
             <input type="text" name="tag" placeholder="Тэг">
@@ -21,36 +20,37 @@
             <input type="text" name="volume" placeholder="Объём двигателя">
             <input type="text" name="price" placeholder="Цена">
 
+            <input type="file" name="file">
+            <br><br>
+
             <button type="submit"> Добавить</button>
+            <br> <br>
         </form>
     </div>
-<!-- -->
+
 
         <form method="get" action="/main">
             <div>Поиск по "Тэг"</div>
-            <input type="text" name="filter" value="${filter?ifExist}" >
+            <input type="text" name="filter" value="${filter!""}" >
             <div>Поиск по "Брэнд авто"</div>
-            <input type="text" name="filter1" value="${filter1?ifExist}">
+            <input type="text" name="filter1" value="${filter1!""}">
         <button type="submit">Найти</button>
     </form>
-
-
-
 
     <#list ads as ad>
         <div>
             <b>${ad.id}</b>
             <span>${ad.text}</span>
             <i>${ad.tag}</i>
-
             <span>
                 <#list ad.listInfoCar() as list>${list}<#sep>, </#list>
-
-
-            </span>
-
+           </span>
             <strong>${ad.authorName}</strong>
-
+        </div>
+        <div>
+            <#if ad.filename??>
+                <img src="/img/${ad.filename}"
+            </#if>
         </div>
     <#else>
         No ads
