@@ -1,58 +1,95 @@
 <#import "parts/common.ftlh" as c>
-<#import "parts/login.ftlh" as l>
+
 <@c.page>
-    <div>
-        <@l.logout />
-        <span><a href="/user" >User list</a></span>
+    <a class="btn btn-primary mb-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Добавить новое объявление
+    </a>
+    <div class="collapse" id="collapseExample">
+
+        <div class="form-group mt-3">
+            <form method="post" enctype="multipart/form-data" action="/main">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="text" placeholder="Введите сообщение">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="tag" placeholder="Тэг">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="brand" placeholder="Брэнад авто">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="mod" placeholder="Модель авто">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="year" placeholder="Год выпуска">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="bodyType" placeholder="Тип кузова">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="transmission" placeholder="Коробка передач">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="typeOfDrive" placeholder="Тип привода">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="fuel" placeholder="Тип топлива">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="volume" placeholder="Объём двигателя">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="price" placeholder="Цена">
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" name="file" id="customFile">
+                        <label class="custom-file-label" for="customFile">Добавить файл</label>
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Добавить объявление</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <form method="post" enctype="multipart/form-data" action="/main">
-            <input type="hidden" name="_csrf" value="${_csrf.token}" />
-            <input type="text" name="text" placeholder="Введите сообщение">
-            <input type="text" name="tag" placeholder="Тэг">
-            <input type="text" name="brand" placeholder="Брэнад авто">
-            <input type="text" name="mod" placeholder="Модель авто">
-            <input type="text" name="year" placeholder="Год выпуска">
-            <input type="text" name="bodyType" placeholder="Тип кузова">
-            <input type="text" name="transmission" placeholder="Коробка передач">
-            <input type="text" name="typeOfDrive" placeholder="Тип привода">
-            <input type="text" name="fuel" placeholder="Тип топлива">
-            <input type="text" name="volume" placeholder="Объём двигателя">
-            <input type="text" name="price" placeholder="Цена">
 
-            <input type="file" name="file">
-            <br><br>
-
-            <button type="submit"> Добавить</button>
-            <br> <br>
-        </form>
+    <div class="form row">
+        <div class="form-group col-md-6">
+            <form method="get" action="/main" class="form-inline">
+                <input type="text" name="filter"  class="form-control"  value="${filter!""}" placeholder="Поиск по Тэг">
+                <input type="text" name="filter1"  class="form-control"  value="${filter1!""}"placeholder="Поиск по Брэнд">
+                <button type="submit" class="btn btn-primary ml-2">Найти</button>
+            </form>
+        </div>
     </div>
 
+    <div class="card-columns">
+        <#list ads as ad>
+            <div class="card my-3">
 
-        <form method="get" action="/main">
-            <div>Поиск по "Тэг"</div>
-            <input type="text" name="filter" value="${filter!""}" >
-            <div>Поиск по "Брэнд авто"</div>
-            <input type="text" name="filter1" value="${filter1!""}">
-        <button type="submit">Найти</button>
-    </form>
+                <#if ad.filename??>
+                <div class="card-footer text-muted">
+                    <img src="/img/${ad.filename}" class="card-img-top">
+                </div>
+                </#if>
 
-    <#list ads as ad>
-        <div>
-            <b>${ad.id}</b>
-            <span>${ad.text}</span>
-            <i>${ad.tag}</i>
-            <span>
+            <div class="m-2">
+                <span>${ad.text}</span>
+                <i>${ad.tag}</i>
+                <span>
                 <#list ad.listInfoCar() as list>${list}<#sep>, </#list>
-           </span>
-            <strong>${ad.authorName}</strong>
-        </div>
-        <div>
-            <#if ad.filename??>
-                <img src="/img/${ad.filename}"
-            </#if>
-        </div>
-    <#else>
-        No ads
-    </#list>
+                </span>
+            </div>
+
+                <div class="card-footer text-muted">
+
+                    ${ad.authorName}
+                </div>
+            </div>
+        <#else>
+            Нет объявлений по данному запросу
+        </#list>
+    </div>
 </@c.page>
