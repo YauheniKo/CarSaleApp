@@ -2,12 +2,15 @@
 
 <@c.page>
     Список пользователей
-<table>
+    <div class="container">
+    <table class="table table-bordered">
     <thead>
     <tr>
-        <th>Имя</th>
+
+        <th с>Имя</th>
         <th>Роль</th>
-        <th></th>
+        <th>Действие</th>
+
     </tr>
     </thead>
     <tbody>
@@ -20,4 +23,5 @@
     </#list>
     </tbody>
 </table>
+    </div>
 </@c.page>
