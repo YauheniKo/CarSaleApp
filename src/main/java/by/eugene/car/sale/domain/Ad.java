@@ -1,7 +1,10 @@
 package by.eugene.car.sale.domain;
 
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +14,8 @@ public class Ad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Введите текст")
+    @Length(max = 2048, message = "Сообщение слишком длинное ( больше чем 2kB)")
     private String text;
 
     private String tag;
@@ -91,6 +96,8 @@ public class Ad {
     public void setAuthor(User author) {
         this.author = author;
     }
+
+
 
     public Car getCar() {
         return car;
