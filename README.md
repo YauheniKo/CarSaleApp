@@ -1,24 +1,24 @@
 # CarSaleApp
 
-Приложение для размещения объявлений о продаже авто.
+####Приложение для размещения объявлений о продаже авто.
 
 
-Для корректной работы программы необходимо:
+#####Для корректной работы программы необходимо:
 - Установить DataBase
 - Создать в DB таблицу
 - Изменить настройки в application.properties для подключения к вашей DB:
 
   - spring.datasource.url=jdbc:postgresql://localhost/product_app_db
                        
-  #######product_app_db  -название вашей базы данных
+   > > product_app_db  -название вашей базы данных
   
   - spring.datasource.username=postgres    
                                                 
-  ######postgres -имя пользователя бд
+  > > postgres -имя пользователя бд
   
   - spring.datasource.password=root   
                                                      
-  ######root -пароль для  бд  
+  > > root -пароль для  бд  
              
 1) Запустить программу в классе Application
  
